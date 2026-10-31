@@ -23,7 +23,7 @@ IN_STOCK_WORDS = ("в наличии", "есть на складе", "на ск�
 
 @dataclass
 class Item:
-    """Товар. Порядок полей — порядок столбцов в Excel и CSV."""
+    """Товар со страницы. Столбцы Excel и CSV описаны в export.py."""
     url: str
     name: str | None = None
     price: Decimal | None = None
@@ -38,6 +38,7 @@ class Item:
     images: list[str] = field(default_factory=list)
     description: str | None = None
     specs: dict[str, str] = field(default_factory=dict)
+    position: int | None = None         # место в каталоге: в Excel товары идут как на сайте
 
 
 # --- общие помощники ---

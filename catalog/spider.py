@@ -45,6 +45,7 @@ class CatalogSpider(scrapy.Spider):
             # Ссылок на товары нет — возможно, дали ссылку прямо на карточку
             item = parse_product(html, url, self.site)
             if is_product_page(item):
+                item.position = 1
                 self.scraped += 1
                 yield item
             else:
@@ -62,7 +63,7 @@ class CatalogSpider(scrapy.Spider):
             self.queued.add(link)
             new += 1
             yield scrapy.Request(link, callback=self.parse_product, errback=self.on_error,
-                                 meta={"category": category})
+                                 meta={"category": category, "position": len(self.queued)})
         log.info("Каталог %s: товаров на странице %d, новых %d, всего в очереди %d",
                  url, len(links), new, len(self.queued))
 
@@ -77,6 +78,7 @@ class CatalogSpider(scrapy.Spider):
             log.warning("Не похоже на карточку товара (нет названия или цены): %s", response.url)
             return
         item.category = item.category or response.meta.get("category")
+        item.position = response.meta.get("position")
         self.scraped += 1
         yield item
         if self.limit is not None and self.scraped >= self.limit:

@@ -25,6 +25,7 @@ def test_listing_queues_products_and_next_page(books):
     assert len(products) == 4
     assert products[0].url.endswith("sharp-objects_997/index.html")
     assert products[0].meta["category"] == "Mystery"
+    assert [p.meta["position"] for p in products] == [1, 2, 3, 4]
     assert [p.url for p in pages] == [CATEGORY.replace("index.html", "page-2.html")]
 
 
