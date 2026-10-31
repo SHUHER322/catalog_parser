@@ -1,0 +1,27 @@
+# Books to Scrape — учебный магазин, сделанный специально для отработки парсинга.
+# Файл — образец настроек: для нового сайта скопируйте его и поменяйте селекторы.
+# Селекторы — обычные CSS, как в браузере (F12 → правый клик по элементу → Copy selector).
+
+name = "Books to Scrape"
+domains = ["books.toscrape.com"]
+currency = "GBP"            # если на странице валюта не видна
+
+[listing]                   # страница категории
+product_link = "article.product_pod h3 a"   # ссылки на карточки товаров
+next_page = "li.next a"                     # кнопка «следующая страница»
+
+[product]                   # карточка товара; пустое или отсутствующее поле — не ищем
+name = ".product_main h1"
+price = ".product_main .price_color"
+in_stock = ".product_main .availability"
+sku_spec = "UPC"            # артикул — строка «UPC» в таблице характеристик
+category = ".breadcrumb li:nth-last-child(2) a"
+images = "#product_gallery img"
+description = "#product_description + p"
+specs_row = "table.table-striped tr"
+specs_key = "th"
+specs_value = "td"
+
+[crawl]                     # бережно к сайту
+delay = 0.5                 # пауза между запросами, секунд
+concurrency = 2             # запросов одновременно

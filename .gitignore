@@ -1,0 +1,9 @@
+__pycache__/
+.venv/
+.pytest_cache/
+# результаты и служебные файлы парсинга
+output/
+data/
+*.xlsx
+*.csv
+CLAUDE.md
