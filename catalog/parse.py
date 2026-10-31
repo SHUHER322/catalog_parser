@@ -98,6 +98,12 @@ def next_page(html: str, page_url: str, site: Site) -> str | None:
     return url if url and url != urldefrag(page_url)[0] else None
 
 
+def page_title(html: str) -> str | None:
+    """Заголовок страницы каталога (h1) — название категории для товаров,
+    у которых своя категория в карточке не указана."""
+    return _text(_soup(html).find("h1"))
+
+
 # --- карточка товара ---
 
 def _specs(soup: BeautifulSoup, sel: ProductSelectors) -> dict[str, str]:

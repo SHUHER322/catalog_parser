@@ -7,7 +7,7 @@ domains = ["books.toscrape.com"]
 currency = "GBP"            # если на странице валюта не видна
 
 [listing]                   # страница категории
-product_link = "article.product_pod h3 a"   # ссылки на карточки товаров
+product_link = "ol.row article.product_pod h3 a"   # ссылки на товары (ol — сам каталог, не «недавно смотрели»)
 next_page = "li.next a"                     # кнопка «следующая страница»
 
 [product]                   # карточка товара; пустое или отсутствующее поле — не ищем
