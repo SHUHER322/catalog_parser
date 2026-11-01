@@ -25,13 +25,16 @@ class ExportPipeline:
         self.draft = base.with_suffix(".jsonl")
         self.file = None
         self.written: list[Path] = []
+        self.stats = None                   # статистика Scrapy: туда кладём пути к файлам
 
     @classmethod
     def from_crawler(cls, crawler):
         s = crawler.settings
-        return cls(Path(s.get("CATALOG_OUT")), tuple(s.getlist("CATALOG_FORMATS")),
+        pipe = cls(Path(s.get("CATALOG_OUT")), tuple(s.getlist("CATALOG_FORMATS")),
                    s.getbool("CATALOG_RESUME"), s.get("CATALOG_SITE_NAME", ""),
                    s.getlist("CATALOG_SOURCES"))
+        pipe.stats = crawler.stats
+        return pipe
 
     def open_spider(self, spider=None):
         self.draft.parent.mkdir(parents=True, exist_ok=True)
@@ -57,6 +60,8 @@ class ExportPipeline:
             self._save(lambda p: write_csv(items, p), ".csv", now)
         for path in self.written:
             log.info("Сохранено: %s (%d товаров)", path, len(items))
+        if self.stats is not None:
+            self.stats.set_value("catalog/files", [str(p) for p in self.written])
 
     def _save(self, write, suffix: str, now: datetime) -> None:
         """Если прошлый файл открыт в Excel, Windows не даст его перезаписать —

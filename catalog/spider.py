@@ -26,6 +26,8 @@ class CatalogSpider(scrapy.Spider):
         self.scraped = 0
         self.skipped: list[str] = []    # открылись, но на карточку не похожи
         self.failed: list[str] = []     # не открылись даже после повторов
+        self.listing_pages = 0          # обработано страниц каталога
+        self.empty_listings = 0         # из них без единой ссылки на товар
 
     async def start(self):
         for url in self.start_urls:
@@ -40,8 +42,10 @@ class CatalogSpider(scrapy.Spider):
 
     def parse_listing(self, response):
         html, url = response.text, response.url
+        self.listing_pages += 1
         links = product_links(html, url, self.site)
         if not links:
+            self.empty_listings += 1
             # Ссылок на товары нет — возможно, дали ссылку прямо на карточку
             item = parse_product(html, url, self.site)
             if is_product_page(item):
