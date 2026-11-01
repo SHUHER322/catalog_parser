@@ -1,0 +1,13 @@
+# В образ попадают только код и настройки сайтов
+.git/
+.github/
+.venv/
+__pycache__/
+.pytest_cache/
+tests/
+output/
+data/
+docs/
+CLAUDE.md
+*.xlsx
+*.csv
