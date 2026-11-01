@@ -29,6 +29,7 @@ class ProductSelectors:
     price: str = ""
     old_price: str = ""
     in_stock: str = ""              # текст «В наличии» / «Нет в наличии»
+    stock_counts: str = ""          # остатки по магазинам/складам: числа во всех элементах складываются
     sku: str = ""
     sku_spec: str = ""              # или артикул из характеристик: название строки, например «Артикул»
     brand: str = ""

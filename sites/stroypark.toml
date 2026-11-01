@@ -1,0 +1,30 @@
+# Стройпарк (Томск) — строительный гипермаркет. Пример настроек для настоящего магазина:
+# каталог с постраничной навигацией, цена по дисконтной карте и старая цена,
+# остатки по нескольким магазинам, характеристики списком.
+# robots.txt сайта разрешает каталог и страницы ?page=N.
+
+name = "Стройпарк"
+domains = ["stroyparkdiy.ru"]
+currency = "RUB"
+
+[listing]
+product_link = "a.carrot-product-item-link"     # название товара в плитке каталога
+next_page = "li.pager-next a"                   # «следующая ›»
+
+[product]
+# Внутри .s-product__prices — чтобы не взять цену из блока «Вы смотрели» внизу страницы
+name = "h1.s-h1"
+price = ".s-product__prices .carrot-product-price"
+old_price = ".s-product__prices .carrot-product-price-old"
+stock_counts = ".s-stock-item__count"           # «3 шт» по каждому магазину — складываем
+sku = ".s-product__code .carrot-product-code"   # «Код товара»
+brand_spec = "Производитель"                    # бренд — строка в характеристиках
+category = ".s-breadcrumbs a:last-of-type"
+images = ".s-gallery__main img"
+specs_row = ".s-parameter-item"
+specs_key = ".s-parameter-item__title"
+specs_value = "footer"
+
+[crawl]
+delay = 1.5                 # настоящий магазин — ходим неспешно
+concurrency = 1

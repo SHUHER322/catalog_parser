@@ -153,6 +153,14 @@ def parse_product(html: str, url: str, site: Site) -> Item:
     item.stock = _first(soup, sel.in_stock)
     item.in_stock = stock_from_text(item.stock)
     item.quantity = stock_quantity(item.stock)
+    if sel.stock_counts:
+        counts = [int(m.group()) for el in soup.select(sel.stock_counts)
+                  if (m := re.search(r"\d+", el.get_text(" ", strip=True)))]
+        if counts:
+            item.quantity = sum(counts)
+            item.in_stock = item.quantity > 0
+            places = sum(1 for c in counts if c > 0)
+            item.stock = item.stock or f"{item.quantity} шт. в {places} из {len(counts)} магазинов"
     item.specs = _specs(soup, sel)
     item.sku = _first(soup, sel.sku) or _spec(item.specs, sel.sku_spec)
     item.brand = _first(soup, sel.brand) or _spec(item.specs, sel.brand_spec)
