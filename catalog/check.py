@@ -37,7 +37,7 @@ def selector_report(html: str, selectors: ProductSelectors) -> list[str]:
     lines = []
     for f in fields(selectors):
         css = getattr(selectors, f.name)
-        if not css or f.name in ("specs_key", "specs_value") or f.name.endswith("_spec"):
+        if not css or f.name in ("specs_key", "specs_value", "skip_text") or f.name.endswith("_spec"):
             continue
         found = len(soup.select(css))
         mark = "✓" if found else "✗"

@@ -4,7 +4,7 @@ from decimal import Decimal
 import pytest
 
 from catalog.config import load_site
-from catalog.parse import next_page, page_title, parse_product, product_links
+from catalog.parse import is_product_page, next_page, page_title, parse_product, product_links
 from tests.conftest import ROOT, page
 
 CATEGORY = "https://stroyparkdiy.ru/catalog/instrumentyi-i-krepej/elektroinstrument/perforatoryi"
@@ -44,3 +44,9 @@ def test_stock_counts_zero_everywhere(stroypark):
                                          .replace("<strong>5</strong>", "<strong>0</strong>")
     item = parse_product(html, PRODUCT, stroypark)
     assert item.quantity == 0 and item.in_stock is False
+
+
+def test_unpublished_product_is_skipped(stroypark):
+    html = page("stroypark_product.html").replace(
+        '<h1 class="s-h1">Гайковерт QUATTRO ELEMENTI 919-846</h1>', '<h1 class="s-h1">Товар снят с публикации</h1>')
+    assert not is_product_page(parse_product(html, PRODUCT, stroypark))

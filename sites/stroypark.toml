@@ -24,6 +24,7 @@ images = ".s-gallery__main img"
 specs_row = ".s-parameter-item"
 specs_key = ".s-parameter-item__title"
 specs_value = "footer"
+skip_text = "Товар снят с публикации"           # страница есть, а товара уже нет — пропускаем
 
 [crawl]
 delay = 1.5                 # настоящий магазин — ходим неспешно

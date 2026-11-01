@@ -144,6 +144,8 @@ def parse_product(html: str, url: str, site: Site) -> Item:
     soup = _soup(html)
     sel = site.product
     item = Item(url=url)
+    if sel.skip_text and sel.skip_text.lower() in soup.get_text(" ").lower():
+        return item                     # товар снят с продажи — пустой Item, паук его пропустит
 
     price_text = _first(soup, sel.price)
     item.name = _first(soup, sel.name)

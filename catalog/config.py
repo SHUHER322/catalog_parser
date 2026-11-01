@@ -40,6 +40,7 @@ class ProductSelectors:
     specs_row: str = ""             # строка таблицы характеристик
     specs_key: str = ""             # название внутри строки
     specs_value: str = ""           # значение внутри строки
+    skip_text: str = ""             # текст, по которому видно, что товара нет («Товар снят с публикации»)
 
 
 @dataclass(frozen=True)

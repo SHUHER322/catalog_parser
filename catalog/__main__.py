@@ -122,7 +122,17 @@ def run_crawl(args, site) -> int:
     return 0 if counts.scraped else 1
 
 
+def utf8_output() -> None:
+    """Вывод в файл (`> report.txt`) на Windows идёт в кодировке cp1251, где нет ✓ и ⚠ —
+    Python падает с UnicodeEncodeError. Переключаем вывод на UTF-8."""
+    for stream in (sys.stdout, sys.stderr):
+        if (getattr(stream, "encoding", "") or "").lower().replace("-", "") != "utf8" \
+                and hasattr(stream, "reconfigure"):
+            stream.reconfigure(encoding="utf-8", errors="replace")
+
+
 def main(argv=None) -> int:
+    utf8_output()
     args = parse_args(argv)
     try:
         site = pick_site(args)
